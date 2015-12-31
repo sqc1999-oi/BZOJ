@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4016 [FJOI2014]最短路径
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4128 Matrix", "4128 Matrix\4128 Matrix.vcxproj", "{9C670956-84F7-450D-922C-AF5E73848432}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3925 [Zjoi20150]地震后的幻想乡", "3925 [Zjoi20150]地震后的幻想乡\3925 [Zjoi20150]地震后的幻想乡.vcxproj", "{8F4E9425-151A-44DE-930A-F5694EA45EB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -121,6 +123,14 @@ Global
 		{9C670956-84F7-450D-922C-AF5E73848432}.Release|x64.Build.0 = Release|x64
 		{9C670956-84F7-450D-922C-AF5E73848432}.Release|x86.ActiveCfg = Release|Win32
 		{9C670956-84F7-450D-922C-AF5E73848432}.Release|x86.Build.0 = Release|Win32
+		{8F4E9425-151A-44DE-930A-F5694EA45EB6}.Debug|x64.ActiveCfg = Debug|x64
+		{8F4E9425-151A-44DE-930A-F5694EA45EB6}.Debug|x64.Build.0 = Debug|x64
+		{8F4E9425-151A-44DE-930A-F5694EA45EB6}.Debug|x86.ActiveCfg = Debug|Win32
+		{8F4E9425-151A-44DE-930A-F5694EA45EB6}.Debug|x86.Build.0 = Debug|Win32
+		{8F4E9425-151A-44DE-930A-F5694EA45EB6}.Release|x64.ActiveCfg = Release|x64
+		{8F4E9425-151A-44DE-930A-F5694EA45EB6}.Release|x64.Build.0 = Release|x64
+		{8F4E9425-151A-44DE-930A-F5694EA45EB6}.Release|x86.ActiveCfg = Release|Win32
+		{8F4E9425-151A-44DE-930A-F5694EA45EB6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
