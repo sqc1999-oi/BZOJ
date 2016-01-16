@@ -115,6 +115,7 @@ void read(int n, ...)
 			ch = getchar();
 		} while (isdigit(ch));
 	}
+	va_end(li);
 }
 int main()
 {
