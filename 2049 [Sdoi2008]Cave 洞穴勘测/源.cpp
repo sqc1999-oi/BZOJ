@@ -3,7 +3,7 @@
 #include <cstdarg>
 #include <cctype>
 using namespace std;
-const int N = 1e5, P = 51061;
+const int N = 1e4;
 struct splay_node
 {
 	static splay_node *nul;
@@ -12,62 +12,26 @@ struct splay_node
 		constructor()
 		{
 			nul = new splay_node;
-			nul->val = nul->sum = nul->mul_f = nul->size = 0;
 			nul->l = nul->r = nul->p = nul;
 		}
 	};
 	static constructor ctor;
 	splay_node *l, *r, *p;
-	unsigned size, val, sum, add_f, mul_f;
-	bool rev_f;
-	splay_node() :l(nul), r(nul), p(nul), size(1), val(1), sum(1), add_f(0), mul_f(1), rev_f(false) {}
-	bool is_root() const { return p == nul || p->l != this&&p->r != this; }
+	bool rev;
+	splay_node() :l(nul), r(nul), p(nul), rev(false) {}
+	bool is_root() { return p == nul || p->l != this&&p->r != this; }
 	void reverse()
 	{
 		if (this == nul) return;
 		swap(l, r);
-		rev_f ^= 1;
-	}
-	void add(unsigned x)
-	{
-		if (this == nul) return;
-		(add_f += x) %= P;
-		(val += x) %= P;
-		(sum += x*size%P) %= P;
-	}
-	void multiply(unsigned x)
-	{
-		if (this == nul) return;
-		(mul_f *= x) %= P;
-		(add_f *= x) %= P;
-		(val *= x) %= P;
-		(sum *= x) %= P;
+		rev ^= 1;
 	}
 	void push_down()
 	{
-		if (rev_f)
-		{
-			l->reverse();
-			r->reverse();
-			rev_f = false;
-		}
-		if (mul_f != 1)
-		{
-			l->multiply(mul_f);
-			r->multiply(mul_f);
-			mul_f = 1;
-		}
-		if (add_f != 0)
-		{
-			l->add(add_f);
-			r->add(add_f);
-			add_f = 0;
-		}
-	}
-	void maintain()
-	{
-		size = (l->size + r->size + 1) % P;
-		sum = (l->sum + r->sum + val) % P;
+		if (!rev) return;
+		l->reverse();
+		r->reverse();
+		rev = false;
 	}
 	void transplant(splay_node *x)
 	{
@@ -83,8 +47,6 @@ struct splay_node
 		transplant(x);
 		x->l = this;
 		p = x;
-		maintain();
-		x->maintain();
 	}
 	void right_rotate()
 	{
@@ -94,8 +56,6 @@ struct splay_node
 		transplant(x);
 		x->r = this;
 		p = x;
-		maintain();
-		x->maintain();
 	}
 	void splay()
 	{
@@ -111,22 +71,24 @@ struct splay_node
 		while (k > 0) st[--k]->push_down();
 		while (!is_root())
 		{
-			splay_node *x = p->p;
 			if (p->is_root())
 				if (p->l == this) p->right_rotate();
 				else p->left_rotate();
 			else
+			{
+				splay_node *x = p->p;
 				if (p->l == this)
 					if (x->l == p) x->right_rotate(), p->right_rotate();
 					else p->right_rotate(), x->left_rotate();
 				else
 					if (x->r == p) x->left_rotate(), p->left_rotate();
 					else p->left_rotate(), x->right_rotate();
+			}
 		}
 	}
 };
-splay_node::constructor splay_node::ctor;
 splay_node *splay_node::nul;
+splay_node::constructor splay_node::ctor;
 void access(splay_node *n)
 {
 	splay_node *x = n, *y = splay_node::nul;
@@ -134,7 +96,6 @@ void access(splay_node *n)
 	{
 		x->splay();
 		x->r = y;
-		x->maintain();
 		y = x;
 		x = x->p;
 	}
@@ -145,11 +106,6 @@ void change_root(splay_node *x)
 	access(x);
 	x->reverse();
 }
-void extract(splay_node *x, splay_node *y)
-{
-	change_root(x);
-	access(y);
-}
 void link(splay_node *x, splay_node *y)
 {
 	change_root(y);
@@ -158,10 +114,16 @@ void link(splay_node *x, splay_node *y)
 }
 void cut(splay_node *x, splay_node *y)
 {
-	extract(x, y);
+	change_root(x);
+	access(y);
 	y->l = x->p = splay_node::nul;
-	y->maintain();
 }
+splay_node *find_root(splay_node *x)
+{
+	while (x->p != splay_node::nul) x = x->p;
+	return x;
+}
+splay_node a[N];
 void read(int n, ...)
 {
 	va_list li;
@@ -187,43 +149,16 @@ int next_ch()
 	while (isblank(ch));
 	return ch;
 }
-splay_node a[N];
 int main()
 {
-	int n, q;
-	read(2, &n, &q);
-	for (int i = 0; i < n - 1; i++)
+	int n, m;
+	read(2, &n, &m);
+	for (int i = 0; i < m; i++)
 	{
-		int x, y;
-		read(2, &x, &y);
-		link(a + x - 1, a + y - 1);
-	}
-	for (int i = 0; i < q; i++)
-	{
-		int ch = next_ch(), x, y;
-		unsigned v;
-		switch (ch)
-		{
-		case '+':
-			read(3, &x, &y, &v);
-			extract(a + x - 1, a + y - 1);
-			(a + y - 1)->add(v);
-			break;
-		case '-':
-			read(2, &x, &y);
-			cut(a + x - 1, a + y - 1);
-			read(2, &x, &y);
-			link(a + x - 1, a + y - 1);
-			break;
-		case '*':
-			read(3, &x, &y, &v);
-			extract(a + x - 1, a + y - 1);
-			(a + y - 1)->multiply(v);
-			break;
-		case '/':
-			read(2, &x, &y);
-			extract(a + x - 1, a + y - 1);
-			printf("%u\n", (a + y - 1)->sum);
-		}
+		int u, v, ch = next_ch();
+		read(2, &u, &v);
+		if (ch == 'C') link(a + u - 1, a + v - 1);
+		else if (ch == 'D') cut(a + u - 1, a + v - 1);
+		else if (ch == 'Q') printf("%s\n", find_root(a + u - 1) == find_root(a + v - 1) ? "Yes" : "No");
 	}
 }
