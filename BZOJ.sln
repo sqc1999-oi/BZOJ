@@ -39,6 +39,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2631 tree", "2631 tree\2631
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2049 [Sdoi2008]Cave 洞穴勘测", "2049 [Sdoi2008]Cave 洞穴勘测\2049 [Sdoi2008]Cave 洞穴勘测.vcxproj", "{202FD88D-C001-4821-896E-9A71F34AA226}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3282 Tree", "3282 Tree\3282 Tree.vcxproj", "{32420071-EDA1-4BEE-9D19-46C211C725DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -191,6 +193,14 @@ Global
 		{202FD88D-C001-4821-896E-9A71F34AA226}.Release|x64.Build.0 = Release|x64
 		{202FD88D-C001-4821-896E-9A71F34AA226}.Release|x86.ActiveCfg = Release|Win32
 		{202FD88D-C001-4821-896E-9A71F34AA226}.Release|x86.Build.0 = Release|Win32
+		{32420071-EDA1-4BEE-9D19-46C211C725DC}.Debug|x64.ActiveCfg = Debug|x64
+		{32420071-EDA1-4BEE-9D19-46C211C725DC}.Debug|x64.Build.0 = Debug|x64
+		{32420071-EDA1-4BEE-9D19-46C211C725DC}.Debug|x86.ActiveCfg = Debug|Win32
+		{32420071-EDA1-4BEE-9D19-46C211C725DC}.Debug|x86.Build.0 = Debug|Win32
+		{32420071-EDA1-4BEE-9D19-46C211C725DC}.Release|x64.ActiveCfg = Release|x64
+		{32420071-EDA1-4BEE-9D19-46C211C725DC}.Release|x64.Build.0 = Release|x64
+		{32420071-EDA1-4BEE-9D19-46C211C725DC}.Release|x86.ActiveCfg = Release|Win32
+		{32420071-EDA1-4BEE-9D19-46C211C725DC}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

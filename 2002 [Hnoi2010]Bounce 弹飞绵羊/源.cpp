@@ -32,7 +32,7 @@ struct splay_node
 	{
 		splay_node *x = r;
 		r = x->l;
-		if (r != nul) r->p = this;
+		r->p = this;
 		transplant(x);
 		x->l = this;
 		p = x;
@@ -43,7 +43,7 @@ struct splay_node
 	{
 		splay_node *x = l;
 		l = x->r;
-		if (l != nul) l->p = this;
+		l->p = this;
 		transplant(x);
 		x->r = this;
 		p = x;

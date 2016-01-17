@@ -3,7 +3,7 @@
 #include <cstdarg>
 #include <cctype>
 using namespace std;
-const int N = 1e4;
+const int N = 3e5;
 struct splay_node
 {
 	static splay_node *nul;
@@ -18,7 +18,8 @@ struct splay_node
 	static constructor ctor;
 	splay_node *l, *r, *p;
 	bool rev;
-	splay_node() :l(nul), r(nul), p(nul), rev(false) {}
+	int val, sum;
+	splay_node() :l(nul), r(nul), p(nul), rev(false), val(), sum() {}
 	bool is_root() { return p == nul || p->l != this&&p->r != this; }
 	void reverse()
 	{
@@ -32,6 +33,12 @@ struct splay_node
 		l->reverse();
 		r->reverse();
 		rev = false;
+	}
+	void maintain() { sum = l->sum^r->sum^val; }
+	void update(int x)
+	{
+		val = x;
+		maintain();
 	}
 	void transplant(splay_node *x)
 	{
@@ -47,6 +54,8 @@ struct splay_node
 		transplant(x);
 		x->l = this;
 		p = x;
+		maintain();
+		x->maintain();
 	}
 	void right_rotate()
 	{
@@ -56,6 +65,8 @@ struct splay_node
 		transplant(x);
 		x->r = this;
 		p = x;
+		maintain();
+		x->maintain();
 	}
 	void splay()
 	{
@@ -87,8 +98,8 @@ struct splay_node
 		}
 	}
 };
-splay_node *splay_node::nul;
 splay_node::constructor splay_node::ctor;
+splay_node *splay_node::nul;
 void access(splay_node *n)
 {
 	splay_node *x = n, *y = splay_node::nul;
@@ -96,6 +107,7 @@ void access(splay_node *n)
 	{
 		x->splay();
 		x->r = y;
+		x->maintain();
 		y = x;
 		x = x->p;
 	}
@@ -106,6 +118,16 @@ void change_root(splay_node *x)
 	access(x);
 	x->reverse();
 }
+splay_node *find_root(splay_node *x)
+{
+	while (x->p != splay_node::nul) x = x->p;
+	return x;
+}
+void extract(splay_node *x, splay_node *y)
+{
+	change_root(x);
+	access(y);
+}
 void link(splay_node *x, splay_node *y)
 {
 	change_root(y);
@@ -114,16 +136,11 @@ void link(splay_node *x, splay_node *y)
 }
 void cut(splay_node *x, splay_node *y)
 {
-	change_root(x);
-	access(y);
+	extract(x, y);
 	y->l = x->p = splay_node::nul;
+	y->maintain();
 }
-splay_node *find_root(splay_node *x)
-{
-	while (x->p != splay_node::nul) x = x->p;
-	return x;
-}
-splay_node a[N];
+bool connected(splay_node *x, splay_node *y) { return find_root(x) == find_root(y); }
 void read(int n, ...)
 {
 	va_list li;
@@ -142,23 +159,33 @@ void read(int n, ...)
 	}
 	va_end(li);
 }
-int next_ch()
-{
-	int ch;
-	do ch = getchar();
-	while (isblank(ch));
-	return ch;
-}
+splay_node a[N];
 int main()
 {
 	int n, m;
 	read(2, &n, &m);
+	for (int i = 0; i < n; i++)
+	{
+		int x;
+		read(1, &x);
+		access(a + i);
+		(a + i)->update(x);
+	}
 	for (int i = 0; i < m; i++)
 	{
-		int u, v, ch = next_ch();
-		read(2, &u, &v);
-		if (ch == 'C') link(a + u - 1, a + v - 1);
-		else if (ch == 'D') cut(a + u - 1, a + v - 1);
-		else if (ch == 'Q') printf("%s\n", find_root(a + u - 1) == find_root(a + v - 1) ? "Yes" : "No");
+		int op, x, y;
+		read(3, &op, &x, &y);
+		if (op == 0)
+		{
+			extract(a + x - 1, a + y - 1);
+			printf("%d\n", (a + y - 1)->sum);
+		}
+		else if (op == 1) { if (!connected(a + x - 1, a + y - 1)) link(a + x - 1, a + y - 1); }
+		else if (op == 2) { if (connected(a + x - 1, a + y - 1)) cut(a + x - 1, a + y - 1); }
+		else if (op == 3)
+		{
+			access(a + x - 1);
+			(a + x - 1)->update(y);
+		}
 	}
 }
