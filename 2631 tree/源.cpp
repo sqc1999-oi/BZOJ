@@ -184,7 +184,7 @@ int next_ch()
 {
 	int ch;
 	do ch = getchar();
-	while (isblank(ch));
+	while (ch == ' ' || ch == '\r' || ch == '\n');
 	return ch;
 }
 splay_node a[N];
