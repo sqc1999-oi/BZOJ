@@ -19,11 +19,11 @@ struct splay_node
 		}
 	};
 	static constructor ctor;
-	int fuck, id;
+	int id;
 	splay_node *l, *r, *p;
 	bool rev;
 	int min;
-	splay_node() :fuck(-1), id(INT_MAX), l(nul), r(nul), p(nul), rev(), min(INT_MAX) {}
+	splay_node() :id(INT_MAX), l(nul), r(nul), p(nul), rev(), min(INT_MAX) {}
 	bool is_root() { return p == nul || p->l != this&&p->r != this; }
 	void reverse()
 	{
@@ -195,7 +195,6 @@ int main()
 	read(4, &n, &m, &k, &type);
 	splay_node *a = new splay_node[n + m];
 	for (int i = 0; i < m; i++) a[i + n].id = a[i + n].min = i;
-	for (int i = 0; i < n + m; i++) a[i].fuck = i;
 	seg_node **st = new seg_node *[m + 1];
 	st[0] = new_node();
 	st[0]->l = st[0]->r = st[0];
