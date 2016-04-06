@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1000 A+B Problem", "1000 A+B Problem\1000 A+B Problem.vcxproj", "{16699348-E001-471A-9E09-4869BC5E6914}"
 EndProject
@@ -44,6 +44,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3514 Codechef MARCH14 GERALD07加强版", "3514 Codechef MARCH14 GERALD07加强版\3514 Codechef MARCH14 GERALD07加强版.vcxproj", "{1CE239C9-70D4-4407-989C-04C8B91B69BC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3040 最短路(road)", "3040 最短路(road)\3040 最短路(road).vcxproj", "{9025A09F-8B8A-40F7-B1DB-5D6B5DF4BE57}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4144 [AMPPZ2014]Petrol", "4144 [AMPPZ2014]Petrol\4144 [AMPPZ2014]Petrol.vcxproj", "{FB4FFF6C-F5B7-4578-86E9-920717D49C49}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4061 [Cerc2012]Farm and factory", "4061 [Cerc2012]Farm and factory\4061 [Cerc2012]Farm and factory.vcxproj", "{3A66A973-5AD5-4420-A275-A195CD1B0BB5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3295 [Cqoi2011]动态逆序对", "3295 [Cqoi2011]动态逆序对\3295 [Cqoi2011]动态逆序对.vcxproj", "{9D8390E0-CBF3-4019-87E4-A79F9BEB766C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -221,6 +227,30 @@ Global
 		{9025A09F-8B8A-40F7-B1DB-5D6B5DF4BE57}.Release|x64.Build.0 = Release|x64
 		{9025A09F-8B8A-40F7-B1DB-5D6B5DF4BE57}.Release|x86.ActiveCfg = Release|Win32
 		{9025A09F-8B8A-40F7-B1DB-5D6B5DF4BE57}.Release|x86.Build.0 = Release|Win32
+		{FB4FFF6C-F5B7-4578-86E9-920717D49C49}.Debug|x64.ActiveCfg = Debug|x64
+		{FB4FFF6C-F5B7-4578-86E9-920717D49C49}.Debug|x64.Build.0 = Debug|x64
+		{FB4FFF6C-F5B7-4578-86E9-920717D49C49}.Debug|x86.ActiveCfg = Debug|Win32
+		{FB4FFF6C-F5B7-4578-86E9-920717D49C49}.Debug|x86.Build.0 = Debug|Win32
+		{FB4FFF6C-F5B7-4578-86E9-920717D49C49}.Release|x64.ActiveCfg = Release|x64
+		{FB4FFF6C-F5B7-4578-86E9-920717D49C49}.Release|x64.Build.0 = Release|x64
+		{FB4FFF6C-F5B7-4578-86E9-920717D49C49}.Release|x86.ActiveCfg = Release|Win32
+		{FB4FFF6C-F5B7-4578-86E9-920717D49C49}.Release|x86.Build.0 = Release|Win32
+		{3A66A973-5AD5-4420-A275-A195CD1B0BB5}.Debug|x64.ActiveCfg = Debug|x64
+		{3A66A973-5AD5-4420-A275-A195CD1B0BB5}.Debug|x64.Build.0 = Debug|x64
+		{3A66A973-5AD5-4420-A275-A195CD1B0BB5}.Debug|x86.ActiveCfg = Debug|Win32
+		{3A66A973-5AD5-4420-A275-A195CD1B0BB5}.Debug|x86.Build.0 = Debug|Win32
+		{3A66A973-5AD5-4420-A275-A195CD1B0BB5}.Release|x64.ActiveCfg = Release|x64
+		{3A66A973-5AD5-4420-A275-A195CD1B0BB5}.Release|x64.Build.0 = Release|x64
+		{3A66A973-5AD5-4420-A275-A195CD1B0BB5}.Release|x86.ActiveCfg = Release|Win32
+		{3A66A973-5AD5-4420-A275-A195CD1B0BB5}.Release|x86.Build.0 = Release|Win32
+		{9D8390E0-CBF3-4019-87E4-A79F9BEB766C}.Debug|x64.ActiveCfg = Debug|x64
+		{9D8390E0-CBF3-4019-87E4-A79F9BEB766C}.Debug|x64.Build.0 = Debug|x64
+		{9D8390E0-CBF3-4019-87E4-A79F9BEB766C}.Debug|x86.ActiveCfg = Debug|Win32
+		{9D8390E0-CBF3-4019-87E4-A79F9BEB766C}.Debug|x86.Build.0 = Debug|Win32
+		{9D8390E0-CBF3-4019-87E4-A79F9BEB766C}.Release|x64.ActiveCfg = Release|x64
+		{9D8390E0-CBF3-4019-87E4-A79F9BEB766C}.Release|x64.Build.0 = Release|x64
+		{9D8390E0-CBF3-4019-87E4-A79F9BEB766C}.Release|x86.ActiveCfg = Release|Win32
+		{9D8390E0-CBF3-4019-87E4-A79F9BEB766C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
