@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8F4E9425-151A-44DE-930A-F5694EA45EB6}</ProjectGuid>
-    <RootNamespace>My3925Zjoi20150地震后的幻想乡</RootNamespace>
+    <RootNamespace>My3925Zjoi2015地震后的幻想乡</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
