@@ -6,37 +6,40 @@
 #include <cstdarg>
 #include <cctype>
 #include <cmath>
-#include <cstring>
+#include <vector>
+#include <queue>
 using namespace std;
-const int N = 100000;
-const double eps = 1e-5;
+const int N = 1e5, V = 1e6;
+const double eps = 1e-5, M = -1e12;
 typedef pair<double, int> pdi;
+bool flag[N];
+int sz[N], dep[N], depm[N];
+double depw[N];
 struct edge
 {
-	int to, w, next;
-	edge(int to, int w, int next) :to(to), w(w), next(next) { }
-	edge() { }
-} e[N * 2];
-int g[N];
-bool flag[N], vis[N];
-int sz[N], dep[N];
-double depw[N], Ans;
+	int to, w;
+	edge(int to, int w) :to(to), w(w) {}
+	bool operator <(const edge & e) const
+	{
+		return depm[to] < depm[e.to];
+	}
+};
+vector<edge> g[N];
 void get_nodes(int u, int fa, int *vi)
 {
 	vi[++vi[0]] = u;
-	for (int i = ::g[u]; i != -1; i = e[i].next)
+	for (int i = 0; i < g[u].size(); i++)
 	{
-		int v = e[i].to;
-		if (v != fa && !flag[v])
-			get_nodes(v, u, vi);
+		int v = g[u][i].to;
+		if (v != fa && !flag[v]) get_nodes(v, u, vi);
 	}
 }
 void calc_size(int u, int fa)
 {
 	sz[u] = 1;
-	for (int i = ::g[u]; i != -1; i = e[i].next)
+	for (int i = 0; i < g[u].size(); i++)
 	{
-		int v = e[i].to;
+		int v = g[u][i].to;
 		if (v != fa && !flag[v])
 		{
 			calc_size(v, u);
@@ -46,9 +49,9 @@ void calc_size(int u, int fa)
 }
 void calc_dep(int u, int fa)
 {
-	for (int i = ::g[u]; i != -1; i = e[i].next)
+	for (int i = 0; i < g[u].size(); i++)
 	{
-		int v = e[i].to;
+		int v = g[u][i].to;
 		if (v != fa && !flag[v])
 		{
 			dep[v] = dep[u] + 1;
@@ -56,24 +59,38 @@ void calc_dep(int u, int fa)
 		}
 	}
 }
-void calc_depw(int u, int fa, double mid)
+void calc_dep_max(int u, int fa)
 {
-	for (int i = ::g[u]; i != -1; i = e[i].next)
+	depm[u] = 0;
+	for (int i = 0; i < g[u].size(); i++)
 	{
-		int v = e[i].to;
+		int v = g[u][i].to;
 		if (v != fa && !flag[v])
 		{
-			depw[v] = depw[u] + e[i].w - mid;
-			calc_depw(v, u, mid);
+			calc_dep_max(v, u);
+			depm[u] = max(depm[u], depm[v]);
+		}
+	}
+	depm[u]++;
+}
+void calc_depw(int u, int fa, double x)
+{
+	for (int i = 0; i < g[u].size(); i++)
+	{
+		int v = g[u][i].to;
+		if (v != fa && !flag[v])
+		{
+			depw[v] = depw[u] + g[u][i].w - x;
+			calc_depw(v, u, x);
 		}
 	}
 }
 void get_focus(int u, int fa, int n, int &ans, int &min)
 {
 	int max = n - sz[u];
-	for (int i = ::g[u]; i != -1; i = e[i].next)
+	for (int i = 0; i < g[u].size(); i++)
 	{
-		int v = e[i].to;
+		int v = g[u][i].to;
 		if (v != fa && !flag[v])
 		{
 			max = ::max(max, sz[v]);
@@ -86,72 +103,70 @@ void get_focus(int u, int fa, int n, int &ans, int &min)
 		ans = u;
 	}
 }
-bool check(int u, int L, int U, double mid)
+bool check(int u, int L, int U, double x)
 {
 	static double f[N], g[N];
-	static pdi q[N];
 	static int vi[N + 1];
-	for (int i = 0; i <= sz[u]; i++) f[i] = -1e12;
+	fill(f, f + depm[u], M);
 	f[0] = 0;
-	for (int i = ::g[u]; i != -1; i = e[i].next)
+	for (int i = 0; i < ::g[u].size(); i++)
 	{
-		int v = ::e[i].to;
+		int v = ::g[u][i].to;
 		if (flag[v]) continue;
-		for (int i = 0; i <= sz[v]; i++) g[i] = -1e12;
+		fill(g, g + depm[v] + 1, M);
 		vi[0] = 0;
 		get_nodes(v, u, vi);
-		depw[v] = ::e[i].w - mid;
-		calc_depw(v, u, mid);
-		for (int i = 1; i <= vi[0]; i++)
-			if (g[dep[vi[i]]] < depw[vi[i]]) g[dep[vi[i]]] = depw[vi[i]];
-		int a = sz[v], b = 0, c = 0, h = 0, t = 0;
-		double max = -1e12;
+		depw[v] = ::g[u][i].w - x;
+		calc_depw(v, u, x);
+		for (int j = 1; j <= vi[0]; j++) g[dep[vi[j]]] = max(g[dep[vi[j]]], depw[vi[j]]);
+		int a = depm[v], b = 0, c = 0;
+		deque<pdi> q;
+		double max = M;
 		while (a >= 0)
 		{
-			while (b < sz[u] && a + b < L) b++;
-			if (c < b) c = b;
-			while (c < sz[u] && a + c <= U)
+			while (b <= depm[v] && a + b < L) b++;
+			c = ::max(c, b);
+			while (c <= depm[v] && a + c <= U)
 			{
-				while (h != t && (q[t - 1].second < b || q[t - 1].first <= f[c])) t--;
-				q[t].first = f[c];
-				q[t].second = c;
-				t++;
+				while (!q.empty() && (q.back().second < b || q.back().first <= f[c])) q.pop_back();
+				q.push_back(make_pair(f[c], c));
 				c++;
 			}
-			while (h != t && q[h].second < b) h++;
-			if (h != t) if (max < q[h].first + g[a]) max = q[h].first + g[a];
+			while (!q.empty() && q.front().second < b) q.pop_front();
+			if (!q.empty()) max = ::max(max, q.front().first + g[a]);
 			if (max > eps) return true;
 			a--;
 		}
-		for (int i = 1; i <= vi[0]; i++)
-			if (f[dep[vi[i]]] < g[dep[vi[i]]]) f[dep[vi[i]]] = g[dep[vi[i]]];
+		for (int j = 0; j <= depm[v]; j++) f[j] = ::max(f[j], g[j]);
 	}
 	return false;
 }
-void calc_ans(int u, int L, int U)
+double calc_ans(int u, int L, int U)
 {
-	double l = Ans, r = 1e6;
+	sort(g[u].begin(), g[u].end());
+	double l = 0, r = V;
 	while (fabs(l - r) > eps)
 	{
-		double mid = (l * 9 + r) / 10;
+		double mid = (l + r) / 2;
 		if (check(u, L, U, mid)) l = mid;
 		else r = mid;
 	}
-	if (Ans < l) Ans = l;
+	return l;
 }
-void solve(int u, int L, int U)
+double solve(int u, int L, int U)
 {
 	calc_size(u, -1);
-	if (sz[u] == 1 || sz[u] <= L) return;
+	if (sz[u] == 1 || sz[u] < L) return M;
 	int x = INT_MAX;
 	get_focus(u, -1, sz[u], u, x);
-	calc_size(u, -1);
-	flag[u] = true;
+	calc_dep_max(u, -1);
 	dep[u] = 0;
 	calc_dep(u, -1);
-	calc_ans(u, L, U);
-	for (int i = g[u]; i != -1; i = e[i].next)
-		if (!flag[e[i].to]) solve(e[i].to, L, U);
+	flag[u] = true;
+	double ans = calc_ans(u, L, U);
+	for (int i = 0; i < g[u].size(); i++)
+		if (!flag[g[u][i].to]) ans = max(ans, solve(g[u][i].to, L, U));
+	return ans;
 }
 void read(int n, ...)
 {
@@ -159,14 +174,13 @@ void read(int n, ...)
 	va_start(li, n);
 	for (int i = 0; i < n; i++)
 	{
-		int &x = *va_arg(li, int *);
+		int &x = *va_arg(li, int *), ch;
 		x = 0;
-		char ch;
 		do ch = getchar();
 		while (!isdigit(ch));
 		do
 		{
-			(x *= 10) += ch - '0';
+			x = x * 10 + ch - '0';
 			ch = getchar();
 		} while (isdigit(ch));
 	}
@@ -174,20 +188,15 @@ void read(int n, ...)
 }
 int main()
 {
-	memset(g, 0xff, sizeof g);
 	int n, L, U;
 	read(3, &n, &L, &U);
 	for (int i = 0; i < n - 1; i++)
 	{
 		int a, b, c;
 		read(3, &a, &b, &c);
-		a--;
-		b--;
-		e[i] = edge(b, c, g[a]);
-		g[a] = i;
-		e[i + n - 1] = edge(a, c, g[b]);
-		g[b] = i + n - 1;
+		a--, b--;
+		g[a].push_back(edge(b, c));
+		g[b].push_back(edge(a, c));
 	}
-	solve(0, L, U);
-	printf("%.3f", Ans);
+	printf("%.3f", solve(0, L, U));
 }
