@@ -1,12 +1,12 @@
 #include <cstdio>
 #include <cstring>
+#include <cfloat>
 #include <algorithm>
 #include <cstdarg>
 #include <cctype>
 #include <queue>
 #include <vector>
 #include <functional>
-#include <cfloat>
 using namespace std;
 const int N = 5e3, M = 2e5, K = 18;
 void read(int n, ...)
@@ -83,8 +83,8 @@ private:
 			if (rt[i]->v < x->v) x = rt[i];
 		return x;
 	}
-public:
 	vector<node *> rt;
+public:
 	heap() :rt() {}
 	explicit heap(vector<node *> v) :rt(v) {}
 	T min() const { return get_min()->v; }
@@ -106,6 +106,7 @@ public:
 		}
 		return new heap(merge(rt, v));
 	}
+	bool empty() { return rt.empty(); }
 };
 struct edge
 {
@@ -118,14 +119,15 @@ vector<int> ch[N];
 double dis[N];
 int p[N];
 typedef pair<double, int> pdi;
+template<typename T> struct t { typedef priority_queue<T, vector<T>, greater<T> > pq; };
 heap<pdi> *h[N];
 void dijkstra(const vector<edge> *g, int s, int n)
 {
 	static bool flag[N];
-	priority_queue<pdi, vector<pdi>, greater<pdi> > q;
+	t<pdi>::pq q;
 	fill(dis, dis + n, DBL_MAX / 3);
 	dis[s] = 0;
-	q.push(pdi(0, s));
+	q.push(make_pair(0.0, s));
 	while (!q.empty())
 	{
 		int u = q.top().second;
@@ -139,7 +141,7 @@ void dijkstra(const vector<edge> *g, int s, int n)
 			if (x < dis[v])
 			{
 				dis[v] = x;
-				q.push(pdi(x, v));
+				q.push(make_pair(x, v));
 			}
 		}
 	}
@@ -187,13 +189,24 @@ int main()
 			int v = ch[u][i];
 			h[u] = h[v];
 			for (int j = 0; j < g[v].size(); j++)
-				h[v] = h[v]->insert(pdi(g[v][j].pow, g[v][j].to));
+				h[v] = h[v]->insert(make_pair(g[v][j].pow, g[v][j].to));
 		}
 	}
-	priority_queue<pdi, vector<pdi>, greater<pdi> > pq;
-	pq.push(pdi(0, 0));
+	t<pair<double, pair<heap<pdi> *, heap<pdi> *> > >::pq pq;
+	pq.push(make_pair(0.0, make_pair((heap<pdi> *)NULL, h[0])));
+	int cnt = 0;
 	while (!pq.empty())
 	{
-		
+		double w = pq.top().first;
+		e -= w + dis[0];
+		if (e < 0) break;
+		cnt++;
+		heap<pdi> *x = pq.top().second.first, *y = pq.top().second.second;
+		pq.pop();
+		if (!y->empty()) pq.push(make_pair(w + y->min().first, make_pair(y, h[y->min().second])));
+		w -= x->min().first;
+		x = x->extract_min();
+		if (!x->empty()) pq.push(make_pair(w + x->min().first, make_pair(x, h[x->min().second])));
 	}
+	printf("%d\n", cnt);
 }
