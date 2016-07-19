@@ -1,7 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <cstdio>
 #include <cstring>
-#include <cfloat>
 #include <algorithm>
 #include <cstdarg>
 #include <cctype>
@@ -9,8 +8,7 @@
 #include <vector>
 #include <functional>
 using namespace std;
-const int N = 5e3, M = 2e5, K = 18;
-const double INF = DBL_MAX / 3;
+const int N = 1000, M = 10000, K = 14, INF = 0x3f3f3f3f;
 void read(int n, ...)
 {
 	va_list li;
@@ -118,24 +116,22 @@ public:
 };
 struct edge
 {
-	int to;
-	double pow;
-	edge(int to, double pow) :to(to), pow(pow) {}
+	int to, pow;
+	edge(int to, int pow) :to(to), pow(pow) {}
 };
 vector<edge> g[N], rg[N];
 vector<int> ch[N];
-double dis[N];
-int p[N];
-typedef pair<double, int> pdi;
+int p[N], dis[N];
+typedef pair<int, int> pii;
 template<typename T> struct t { typedef priority_queue<T, vector<T>, greater<T> > pq; };
-heap<pdi> *h[N];
-void dijkstra(const vector<edge> *g, int s, int n)
+heap<pii> *h[N];
+void dijkstra(const vector<edge> *g, int s)
 {
 	static bool flag[N];
-	t<pdi>::pq q;
-	fill(dis, dis + n, INF);
+	t<pii>::pq q;
+	memset(dis, 0x3f, sizeof dis);
 	dis[s] = 0;
-	q.push(make_pair(0.0, s));
+	q.push(make_pair(0, s));
 	while (!q.empty())
 	{
 		int u = q.top().second;
@@ -144,8 +140,7 @@ void dijkstra(const vector<edge> *g, int s, int n)
 		flag[u] = true;
 		for (int i = 0; i < g[u].size(); i++)
 		{
-			int v = g[u][i].to;
-			double x = dis[u] + g[u][i].pow;
+			int v = g[u][i].to, x = dis[u] + g[u][i].pow;
 			if (x < dis[v])
 			{
 				dis[v] = x;
@@ -156,27 +151,27 @@ void dijkstra(const vector<edge> *g, int s, int n)
 }
 int main()
 {
-	int n, m;
-	read(2, &n, &m);
-	double e;
-	scanf("%lf", &e);
+	int n, m, k;
+	read(3, &n, &m, &k);
 	for (int i = 0; i < m; i++)
 	{
-		int u, v;
-		read(2, &u, &v);
+		int u, v, w;
+		read(3, &u, &v, &w);
 		u--, v--;
-		double w;
-		scanf("%lf", &w);
 		rg[v].push_back(edge(u, w));
 	}
-	dijkstra(rg, n - 1, n);
+	dijkstra(rg, 0);
+	if (dis[n - 1] == INF)
+	{
+		for (int i = 0; i < k; i++) puts("-1");
+		return 0;
+	}
 	memset(p, 0xff, sizeof p);
 	for (int u = 0; u < n; u++)
 		if (dis[u] < INF)
 			for (int i = 0; i < rg[u].size(); i++)
 			{
-				int v = rg[u][i].to;
-				double w = rg[u][i].pow;
+				int v = rg[u][i].to, w = rg[u][i].pow;
 				if (dis[u] + w == dis[v] && p[v] == -1)
 				{
 					p[v] = u;
@@ -185,8 +180,8 @@ int main()
 				else g[v].push_back(edge(u, w - dis[v] + dis[u]));
 			}
 	queue<int> q;
-	q.push(n - 1);
-	h[n - 1] = new heap<pdi>;
+	q.push(0);
+	h[0] = new heap<pii>;
 	while (!q.empty())
 	{
 		int u = q.front();
@@ -200,16 +195,15 @@ int main()
 			q.push(v);
 		}
 	}
-	t<pair<double, pair<heap<pdi> *, heap<pdi> *> > >::pq pq;
-	pq.push(make_pair(0.0, make_pair((heap<pdi> *)NULL, h[0])));
+	t<pair<int, pair<heap<pii> *, heap<pii> *> > >::pq pq;
+	pq.push(make_pair(0, make_pair((heap<pii> *)NULL, h[n - 1])));
 	int cnt = 0;
 	while (!pq.empty())
 	{
-		double w = pq.top().first;
-		e -= w + dis[0];
-		if (e < 0) break;
-		cnt++;
-		heap<pdi> *x = pq.top().second.first, *y = pq.top().second.second;
+		int w = pq.top().first;
+		printf("%d\n", w + dis[n - 1]);
+		if (++cnt == k) break;
+		heap<pii> *x = pq.top().second.first, *y = pq.top().second.second;
 		pq.pop();
 		if (!y->empty()) pq.push(make_pair(w + y->min().first, make_pair(y, h[y->min().second])));
 		if (x != NULL)
@@ -219,5 +213,5 @@ int main()
 			if (!x->empty()) pq.push(make_pair(w + x->min().first, make_pair(x, h[x->min().second])));
 		}
 	}
-	printf("%d\n", cnt);
+	for (; cnt < k; cnt++) puts("-1");
 }
