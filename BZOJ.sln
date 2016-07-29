@@ -69,6 +69,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1176 [Balkan2007]Mokia", "1
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2716 [Violet 3]天使玩偶", "2716 [Violet 3]天使玩偶\2716 [Violet 3]天使玩偶.vcxproj", "{A769F462-5F8C-4DBB-ADF7-8CD70169EAA5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2001 [Hnoi2010]City 城市建设", "2001 [Hnoi2010]City 城市建设\2001 [Hnoi2010]City 城市建设.vcxproj", "{C171CA6A-6D35-4438-91D1-3454F58D55A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -341,6 +343,14 @@ Global
 		{A769F462-5F8C-4DBB-ADF7-8CD70169EAA5}.Release|x64.Build.0 = Release|x64
 		{A769F462-5F8C-4DBB-ADF7-8CD70169EAA5}.Release|x86.ActiveCfg = Release|Win32
 		{A769F462-5F8C-4DBB-ADF7-8CD70169EAA5}.Release|x86.Build.0 = Release|Win32
+		{C171CA6A-6D35-4438-91D1-3454F58D55A2}.Debug|x64.ActiveCfg = Debug|x64
+		{C171CA6A-6D35-4438-91D1-3454F58D55A2}.Debug|x64.Build.0 = Debug|x64
+		{C171CA6A-6D35-4438-91D1-3454F58D55A2}.Debug|x86.ActiveCfg = Debug|Win32
+		{C171CA6A-6D35-4438-91D1-3454F58D55A2}.Debug|x86.Build.0 = Debug|Win32
+		{C171CA6A-6D35-4438-91D1-3454F58D55A2}.Release|x64.ActiveCfg = Release|x64
+		{C171CA6A-6D35-4438-91D1-3454F58D55A2}.Release|x64.Build.0 = Release|x64
+		{C171CA6A-6D35-4438-91D1-3454F58D55A2}.Release|x86.ActiveCfg = Release|Win32
+		{C171CA6A-6D35-4438-91D1-3454F58D55A2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
