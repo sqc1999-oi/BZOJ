@@ -55,12 +55,8 @@ void contraction(int &m, edge *e, long long &v)
 	init_set(m, e);
 	for (int i = 0; i < cnt; i++)
 	{
-		int x = find(t[i].u), y = find(t[i].v);
-		if (x != y)
-		{
-			f[x] = y;
-			v += w[t[i].id];
-		}
+		f[find(t[i].u)] = find(t[i].v);
+		v += w[t[i].id];
 	}
 	cnt = 0;
 	for (int i = 0; i < m; i++)
@@ -119,16 +115,17 @@ void solve(int l, int r, long long v, int m, int dep)
 	for (int i = l; i < r; i++) nw[q[i].k] = INT_MAX;
 	reduction(m, e[dep]);
 	for (int i = l; i < r; i++) nw[q[i].k] = 0;
-	copy(e[dep], e[dep] + m, e[dep + 1]);
 	int mid = (l + r) / 2;
+	copy(e[dep], e[dep] + m, e[dep + 1]);
 	solve(l, mid, v, m, dep + 1);
+	copy(e[dep], e[dep] + m, e[dep + 1]);
 	solve(mid, r, v, m, dep + 1);
 }
 int main()
 {
 	int n, m, q;
 	read(3, &n, &m, &q);
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < m; i++)
 	{
 		read(3, &e[0][i].u, &e[0][i].v, &w[i]);
 		e[0][i].u--, e[0][i].v--;
@@ -139,6 +136,6 @@ int main()
 		read(2, &::q[i].k, &::q[i].w);
 		::q[i].k--;
 	}
-	solve(0, q, 0, n, 0);
+	solve(0, q, 0, m, 0);
 	for (int i = 0; i < q; i++) printf("%lld\n", ans[i]);
 }
