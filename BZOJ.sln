@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.25428.1
+VisualStudioVersion = 15.0.25618.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1000 A+B Problem", "1000 A+B Problem\1000 A+B Problem.vcxproj", "{16699348-E001-471A-9E09-4869BC5E6914}"
 EndProject
@@ -74,6 +74,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3110 [Zjoi2013]K大数查询", "3110 [Zjoi2013]K大数查询\3110 [Zjoi2013]K大数查询.vcxproj", "{59035B4B-4CC2-49BD-A05D-D0C1ECF2E6DC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2527 [Poi2011]Meteors", "2527 [Poi2011]Meteors\2527 [Poi2011]Meteors.vcxproj", "{5CF8F21B-84E1-421C-A78A-8DBFF48D965E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2038 [2009国家集训队]小Z的袜子(hose)", "2038 [2009国家集训队]小Z的袜子(hose)\2038 [2009国家集训队]小Z的袜子(hose).vcxproj", "{53C318BB-A42F-4184-A88E-5FBFDFB2F26A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -371,6 +373,14 @@ Global
 		{5CF8F21B-84E1-421C-A78A-8DBFF48D965E}.Release|x64.Build.0 = Release|x64
 		{5CF8F21B-84E1-421C-A78A-8DBFF48D965E}.Release|x86.ActiveCfg = Release|Win32
 		{5CF8F21B-84E1-421C-A78A-8DBFF48D965E}.Release|x86.Build.0 = Release|Win32
+		{53C318BB-A42F-4184-A88E-5FBFDFB2F26A}.Debug|x64.ActiveCfg = Debug|x64
+		{53C318BB-A42F-4184-A88E-5FBFDFB2F26A}.Debug|x64.Build.0 = Debug|x64
+		{53C318BB-A42F-4184-A88E-5FBFDFB2F26A}.Debug|x86.ActiveCfg = Debug|Win32
+		{53C318BB-A42F-4184-A88E-5FBFDFB2F26A}.Debug|x86.Build.0 = Debug|Win32
+		{53C318BB-A42F-4184-A88E-5FBFDFB2F26A}.Release|x64.ActiveCfg = Release|x64
+		{53C318BB-A42F-4184-A88E-5FBFDFB2F26A}.Release|x64.Build.0 = Release|x64
+		{53C318BB-A42F-4184-A88E-5FBFDFB2F26A}.Release|x86.ActiveCfg = Release|Win32
+		{53C318BB-A42F-4184-A88E-5FBFDFB2F26A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
