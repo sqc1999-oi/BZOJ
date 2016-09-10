@@ -24,23 +24,23 @@ void read(int n, ...)
 }
 const int N = 5e4;
 int a[N], cnt[N];
-pair<long long, long long> ans[N];
+pair<unsigned, unsigned> ans[N];
 struct query
 {
 	int l, r, id, bid;
 } q[N];
 bool cmp_l(const query &a, const query &b) { return a.l < b.l; }
 bool cmp(const query &a, const query &b) { return a.bid < b.bid || a.bid == b.bid&&a.r < b.r; }
-long long gcd(long long a, long long b) { return b == 0 ? a : gcd(b, a%b); }
-long long inc(int x)
+unsigned gcd(unsigned a, unsigned b) { return b == 0 ? a : gcd(b, a%b); }
+unsigned inc(int x)
 {
 	cnt[x]++;
-	return (cnt[x])*(cnt[x]) - (cnt[x] - 1)*(cnt[x] - 1);
+	return (unsigned)cnt[x] * cnt[x] - (unsigned)(cnt[x] - 1)*(cnt[x] - 1);
 }
-long long dec(int x)
+unsigned dec(int x)
 {
 	cnt[x]--;
-	return (cnt[x])*(cnt[x]) - (cnt[x] + 1)*(cnt[x] + 1);
+	return (unsigned)cnt[x] * cnt[x] - (unsigned)(cnt[x] + 1)*(cnt[x] + 1);
 }
 int main()
 {
@@ -59,10 +59,10 @@ int main()
 	}
 	sort(q, q + m, cmp_l);
 	int s = sqrt(n);
-	for (int i = 0, j = 0, k = 0; i + s < n; i += s, j++)
+	for (int i = 0, j = 0, k = 0; i + s <= n; i += s, j++)
 		for (; q[k].l < i + s&&k < m; k++) q[k].bid = j;
 	sort(q, q + m, cmp);
-	long long ans = 0;
+	unsigned ans = 0;
 	int l = q[0].l, r = q[0].l;
 	for (int i = 0; i < m; i++)
 	{
@@ -70,8 +70,8 @@ int main()
 		for (; r < q[i].r; r++) ans += inc(a[r]);
 		for (; l < q[i].l; l++) ans += dec(a[l]);
 		for (; r > q[i].r; r--) ans += dec(a[r - 1]);
-		long long len = q[i].r - q[i].l, x = len*(len - 1), g = gcd(ans - len, x);
+		unsigned len = q[i].r - q[i].l, x = len*(len - 1), g = gcd(ans - len, x);
 		::ans[q[i].id] = make_pair((ans - len) / g, x / g);
 	}
-	for (int i = 0; i < m; i++) printf("%lld/%lld\n", ::ans[i].first, ::ans[i].second);
+	for (int i = 0; i < m; i++) printf("%u/%u\n", ::ans[i].first, ::ans[i].second);
 }
