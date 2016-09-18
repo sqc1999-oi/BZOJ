@@ -1,4 +1,4 @@
-#define _SCL_SECURE_NO_WARNINGS
+﻿#define _SCL_SECURE_NO_WARNINGS
 #include <cstdio>
 #include <climits>
 #include <cstdarg>
